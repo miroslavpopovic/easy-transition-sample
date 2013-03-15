@@ -1,18 +1,22 @@
 ﻿@using KnockoutSamples.Extensions
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
     <body>
-        <div class="navbar">
+        <header class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <a class="brand" href="@(Url.Action("Index", "Home"))">Knockout Samples</a>
+                <a class="brand" href="@(Url.Action("Index", "Home"))" style="margin-left: 5px;">
+                    <i class="icon-star-empty"></i>
+                    <span>Knockout Samples</span>
+                </a>
                 <ul class="nav">
                     <li class="@Html.ActiveIfMatch("Index", "Home")">
                         <a href="@(Url.Action("Index", "Home"))">Home</a>
@@ -22,9 +26,23 @@
                     </li>
                 </ul>
             </div>
+        </header>
+        
+        <div class="container-fluid" style="margin-top: 50px;">
+            @RenderBody()
+        
+            <footer style="text-align: center;">
+                <hr/>
+                <p>
+                    Knockout Sample project for Microsoft NetWork 2013 conference talk 
+                    <strong>Easy transition to HTML5 using MVVM</strong>.
+                </p>
+                <p>
+                    <a href="http://blog.developers.ba">Radenko Zec</a> &amp; 
+                    <a href="http://blog.miroslavpopovic.com">Miroslav Popovic</a>
+                </p>
+            </footer>
         </div>
-
-        @RenderBody()
 
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
