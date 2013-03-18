@@ -10,3 +10,9 @@
     display: inline-block;
     padding-top: 4px;
 }
+
+.validationMessage {
+    color: #f00;
+    display: inline-block;
+    margin-left: 10px;
+}

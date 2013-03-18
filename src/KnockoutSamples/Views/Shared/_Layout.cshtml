@@ -35,13 +35,19 @@
                             Conference
                         </a>
                     </li>
+                    <li class="@Html.ActiveIfMatch("Profile", "Home")">
+                        <a href="@(Url.Action("Profile", "Home"))">
+                            <i class="icon-user"></i>
+                            Profile
+                        </a>
+                    </li>
                 </ul>
             </div>
         </header>
         
         <div class="container-fluid" style="margin-top: 50px;">
             @RenderBody()
-        
+
             <footer style="text-align: center;">
                 <hr/>
                 <p>

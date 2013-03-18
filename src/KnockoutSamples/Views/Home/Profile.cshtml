@@ -1,0 +1,97 @@
+﻿@using KnockoutSamples.Extensions
+@model KnockoutSamples.Models.ProfileViewModel
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<h3>Profile Information</h3>
+
+<div class="row-fluid">
+    <label>User name: </label>
+    <input type="text" data-bind="value: userName"/>
+
+    <label>First name: </label>
+    <input type="text" data-bind="value: firstName"/>
+
+    <label>Last name: </label>
+    <input type="text" data-bind="value: lastName"/>    
+
+    <label>Email: </label>
+    <input type="text" data-bind="value: email"/>    
+
+    <label>Address: </label>
+    <input type="text" data-bind="value: address"/>    
+
+    <label>Notes: </label>
+    <textarea rows="4" cols="70" class="input-xxlarge" data-bind="value: notes"></textarea>
+</div>
+
+<div class="row-fluid">
+    <button class="btn btn-primary" data-bind="click: save, enable: dirtyFlag.canSave">Save</button>
+    <button class="btn" data-bind="click: revert, enable: dirtyFlag.isDirty">Cancel</button>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        (function() {
+            @*var serverModel = @Html.Raw(Json.Encode(Model))*@
+            
+            var serverModel = @Html.Raw(Model.ToJson()),                
+                ViewModel = function(data) {
+                    var self = this;
+
+                    self.userName = ko.observable().extend({ required: true, minLength: 3 });
+                    self.firstName = ko.observable().extend({ required: true });
+                    self.lastName = ko.observable().extend({ required: true });
+                    self.email = ko.observable().extend({ email: true });
+                    self.address = ko.observable();
+                    self.notes = ko.observable();
+
+                    self.cache = function() {};
+                    self.update(data);
+
+                    self.dirtyFlag = new ko.dirtyFlag(self);
+
+                    self.dirtyFlag.canSave = ko.computed(function() {
+                        return self.dirtyFlag.isDirty() && 
+                               self.userName.isValid() && self.firstName.isValid() && 
+                               self.lastName.isValid() && self.email.isValid();
+                    });
+                };
+
+            ko.utils.extend(ViewModel.prototype, {
+                commit: function() {
+                    this.cache.latestData = ko.toJS(this);
+                    this.dirtyFlag.reset();
+                },
+
+                revert: function() {
+                    this.update(this.cache.latestData);
+                },
+
+                update: function(data) {
+                    this.userName(data.userName || '');
+                    this.firstName(data.firstName || '');
+                    this.lastName(data.lastName || '');
+                    this.email(data.email || '');
+                    this.address(data.address || '');
+                    this.notes(data.notes || '');
+
+                    this.cache.latestData = data;
+                },
+
+                save: function() {
+                    toastr.success('Your data has been saved successfully');
+                    this.commit();
+                }
+            });
+
+            ko.validation.init();
+            ko.applyBindings(new ViewModel(serverModel));
+        }());
+
+    </script>
+}

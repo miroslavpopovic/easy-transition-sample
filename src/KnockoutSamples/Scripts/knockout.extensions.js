@@ -99,3 +99,34 @@ ko.bindingHandlers.select2 = {
         $(element).trigger('change');
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// DirtyFlag
+// http://www.knockmeout.net/2011/05/creating-smart-dirty-flag-in-knockoutjs.html
+ko.dirtyFlag = function (root, isInitiallyDirty) {
+    var result = function () { },
+        initialState = ko.observable(ko.toJSON(root)),
+        initiallyDirty = ko.observable(isInitiallyDirty);
+
+    result.isDirty = ko.computed(function () {
+        return initiallyDirty() || initialState() !== ko.toJSON(root);
+    }).extend({ throttle: 10 });
+
+    result.reset = function () {
+        initialState(ko.toJSON(root));
+        initiallyDirty(false);
+    };
+
+    return result;
+};
