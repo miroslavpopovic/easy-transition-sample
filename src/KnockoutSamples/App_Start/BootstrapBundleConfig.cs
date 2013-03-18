@@ -1,8 +1,9 @@
 using System.Web.Optimization;
+using KnockoutSamples;
 
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(KnockoutSamples.App_Start.BootstrapBundleConfig), "RegisterBundles")]
+[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(BootstrapBundleConfig), "RegisterBundles")]
 
-namespace KnockoutSamples.App_Start
+namespace KnockoutSamples
 {
     public class BootstrapBundleConfig
     {

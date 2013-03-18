@@ -158,8 +158,8 @@
                     this.lines.remove(line);
                 },
                 
-                submit: function() {
-                    alert('Order submitted');
+                submit: function () {
+                    toastr.success('Order submitted');
 
                     this.shippingDate();
                     this.lines([new CartLine(this)]);
