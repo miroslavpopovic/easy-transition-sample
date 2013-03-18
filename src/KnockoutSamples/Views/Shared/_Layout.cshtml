@@ -29,6 +29,12 @@
                             Shopping Cart
                         </a>
                     </li>
+                    <li class="@Html.ActiveIfMatch("ConferenceSetup", "Home")">
+                        <a href="@(Url.Action("ConferenceSetup", "Home"))">
+                            <i class="icon-cog"></i>
+                            Conference
+                        </a>
+                    </li>
                 </ul>
             </div>
         </header>

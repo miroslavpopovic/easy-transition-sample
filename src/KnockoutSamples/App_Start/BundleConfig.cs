@@ -21,6 +21,7 @@ namespace KnockoutSamples
                 "~/Scripts/globalize.js",
                 "~/Scripts/knockout-{version}.js",
                 "~/Scripts/knockout.extensions.js",
+                "~/Scripts/select2.js",
                 "~/Scripts/toastr.js",
                 "~/Scripts/sampleProductCategories.js"));
 
@@ -31,6 +32,8 @@ namespace KnockoutSamples
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/themes/custom-theme/jquery-ui-1.10.0.custom.css",
+                "~/Content/flags.css",
+                "~/Content/select2.css",
                 "~/Content/toastr.css",
                 "~/Content/site.css"));
         }
