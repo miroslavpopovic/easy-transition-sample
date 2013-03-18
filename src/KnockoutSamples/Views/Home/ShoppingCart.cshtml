@@ -2,6 +2,20 @@
     ViewBag.Title = "Shopping Cart Sample";
 }
 
+<h3>My Shopping Cart</h3>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="control-group">
+            <label class="control-label">Shipping date:</label>
+            <div class="controls">
+                <input type="text" class="input-small"
+                       data-bind="value: shippingDate, jqueryui: { widget: 'datepicker', options: {} }"/>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row-fluid">
     <table class="table table-bordered table-striped table-condensed" style="width: 800px;">
         <thead>
@@ -33,7 +47,7 @@
                 </td>
                 <td class="right">
                     <input class="input-mini right" 
-                        data-bind="visible: product, value: quantity, valueUpdate: 'afterKeyDown'" />
+                           data-bind="visible: product, value: quantity, valueUpdate: 'afterkeydown'" />
                 </td>
                 <td class="right">
                     <span data-bind="visible: product, text: subtotal.formatted"></span>
@@ -47,10 +61,17 @@
         </tbody>
     </table>    
 </div>
+
 <div class="row-fluid">
     <div class="span12">
         <strong>Grand total: </strong>
         <span data-bind="text: grandTotal"></span>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <button class="btn btn-primary" data-bind="click: submit, enable: isValid">Submit</button>
     </div>
 </div>
 
@@ -79,6 +100,10 @@
                     return product ? Globalize.format(product.price, 'C2') : '';
                 });
 
+                self.isValid = ko.computed(function() {
+                    return self.product() && (self.quantity() > 0);
+                });
+                
                 self.category.subscribe(function() {
                     self.product(undefined);
                     parent.addEmptyLine();
@@ -102,6 +127,22 @@
 
                     return Globalize.format(total, 'C2');
                 });
+
+                self.isValid = ko.computed(function() {
+                    var lines = self.lines();
+                    
+                    if (lines.length < 2) {
+                        return false;
+                    }
+                    
+                    for (var i = 0, j = lines.length - 1; i < j; i++) {
+                        if (!lines[i].isValid()) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                });
             };
 
             ko.utils.extend(ShoppingCart.prototype, {
@@ -115,6 +156,13 @@
                 
                 removeLine: function(line) {
                     this.lines.remove(line);
+                },
+                
+                submit: function() {
+                    alert('Order submitted');
+
+                    this.shippingDate();
+                    this.lines([new CartLine(this)]);
                 }
             });
 
