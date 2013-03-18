@@ -1,6 +1,39 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Home";
 }
 
-<h2>Index</h2>
+<h3>Knockout in 3 steps</h3>
 
+<div class="row-fluid">
+    <label>First name: </label>
+    <input type="text" data-bind="value: firstName"/>
+
+    <label>Last name: </label>
+    <input type="text" data-bind="value: lastName"/>    
+</div>
+
+<hr/>
+
+<div class="row-fluid">
+    Hello <strong data-bind="text: fullName"></strong>!
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        (function() {
+            var vm = {
+                firstName: ko.observable('Radenko'),
+                lastName: ko.observable('Zec')
+            };
+
+            vm.fullName = ko.computed(function() {
+                return vm.firstName() + ' ' + vm.lastName();
+            });
+
+            ko.applyBindings(vm);
+        } ());
+
+    </script>
+}
