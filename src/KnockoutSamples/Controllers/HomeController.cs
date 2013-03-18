@@ -3,7 +3,7 @@ using KnockoutSamples.Models;
 
 namespace KnockoutSamples.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult ConferenceSetup()
         {
@@ -15,7 +15,7 @@ namespace KnockoutSamples.Controllers
             return View();
         }
 
-        public ActionResult Profile()
+        public ActionResult MyProfile()
         {
             var model = new ProfileViewModel
             {
@@ -32,6 +32,19 @@ namespace KnockoutSamples.Controllers
         public ActionResult ShoppingCart()
         {
             return View();
+        }
+
+        // Sample for using JsonNetResult (serializing to camel case)
+        public ActionResult GetProfile(int id)
+        {
+            return Json(new ProfileViewModel
+            {
+                UserName = "radenko",
+                FirstName = "Radenko",
+                LastName = "Zec",
+                Email = "radenko.zec@something.com",
+                Address = "Veselina Maslese 1"
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
